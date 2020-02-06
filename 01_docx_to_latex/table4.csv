@@ -1,0 +1,15 @@
+﻿Industry classification systems,# of industries,Weighed OI/asset,Weighed OI/sales,Weighed OI/asset
+ ,A. Across-Industry Standard Deviations: Firm-size weighted Result,,,
+1. SIC 3-digit industries,245,0.39,0.066,0.741
+2. GICS sub-industries,157,3.455,0.136,0.619
+3. TNIC 300 fixed industries,300,4.493,0.139,0.809
+4. Autoencoder + SKmenas,300,10.819,0.15,0.924
+5. Original Intransitive TNIC,300,0.125,19.081,0.678
+6. Autoencoder + Intransitive TNIC,300,0.115,20.103,0.703
+ ,B. Within-Industry Standard Deviations: Industry-size weighted Result,,,
+1. SIC 3-digit industries,245,0.126,18.296,0.884
+2. GICS sub-industries,157,0.143,13.823,0.803
+3. TNIC 300 fixed industries,300,0.13,10.243,0.98
+4. Autoencoder + SKmenas,300,0.113,5.857,0.856
+5. Original Intransitive TNIC,300,0.124,8.655,1.055
+6. Autoencoder + Intransitive TNIC,300,0.132,4.25,0.996
