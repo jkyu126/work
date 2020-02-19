@@ -1,0 +1,70 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+---
+---
+title: The Avengers
+author:
+- Thor (UNIST)
+- Iron Man (Hanyang University)
+documentclass: article
+output:
+  pdf_document:
+    keep_tex: yes
+  html_document:
+    df_print: paged
+  github_document:
+  html: null
+nocite: |
+  <!-- bae2014invariance -->
+fontsize: 12pt
+params:
+  format: "latex"
+bibliography: references.bib
+abstract: |
+  This paper examines ...
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(stargazer)
+library(dplyr)
+library(tibble)
+library("knitr")
+library(kableExtra)
+```
+\setlength{\parindent}{1cm}
+# Table 1
+
+```{r, include=F}
+mydat = read.csv("Summary.csv")
+t1 = mydat %>% column_to_rownames("X") 
+  
+  
+```
+
+```{r, results= 'asis', echo =F, message=F, comment=F}
+kable(t1, digits=2, "latex", booktabs = T, caption = "This is Table 1") %>%
+  kable_styling(full_width=T) %>%
+  column_spec(1, width="5cm") %>%
+  pack_rows("Ret BTC Exchange", 1, 8, indent=F) %>%
+  pack_rows("Vol BTC Exchange", 9, 16, indent=F) %>%
+  pack_rows("Net BTC Exchange", 17, 24, indent=F) %>%
+  pack_rows("Ret BTC Exchange", 25, 32, indent=F) 
+```
+```{r, include=F}
+mydat = read.csv("corr_btc_ret_vol.csv") %>% column_to_rownames("X")
+mydat = round(mydat,2)
+mydat[upper.tri(mydat)] = ""
+  
+  
+```
+
+\clearpage
+```{r}
+kable(mydat,  "latex", booktabs = T, caption = "This is Table 2") %>%
+  kable_styling(full_width=T) 
+```
+
+
