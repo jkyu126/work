@@ -274,7 +274,216 @@ reveal %>% select(-game) %>% kable(digits = 3) %>%
 
 ```
 
+# 자산 공개
+
+```{r, echo=F}
+asset = data.frame(Asset = paste("Asset", 1:10), 
+                   RealAsset = c("Dow Jones Industrial Average", 
+                                  "Gold", 
+                                  "KOSPI", "Oil", "S&P 500", "Short-term bond (1yr)",
+                       "House Price (U.S.)", "Long-term bond (20yr)", "USD/KRW", "Volatility Index (VIX)"))
+
+asset %>% 
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+```{r, echo=F}
+
+names = c("djia", "gold", "kospi", "oil", "sp500", "bond_1yr",
+                       "us_home", "bond_20yr", "usd", "vix")
+full_names = c("Dow Jones Industrial Average", "Gold", "KOSPI", "Oil", "S&P 500", 
+               "Short-term bond (1yr)", "House Price (U.S.)", "Long-term bond (20yr)", "USD/KRW", "Volatility Index (VIX)")
+mydat = read.csv("data/sample_dataset.csv", stringsAsFactors = F)
+mydat = mydat %>% 
+  tidyr::pivot_wider(names_from = symbol, values_from=price) 
+mydat$time = as.Date(mydat$time, format="%Y-%m-%d")
+
+i=1
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", name=paste("Asset", i, ".", full_names[i]), 
+               data=mydat) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+fig
+
+i=2
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", name=paste("Asset", i, ".", full_names[i]), 
+               data=mydat) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+fig
+
+i=3
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", name=paste("Asset", i, ".", full_names[i]), 
+               data=mydat) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+fig
+
+i=4
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", name=paste("Asset", i, ".", full_names[i]), 
+               data=mydat) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+fig
+
+i=5
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", name=paste("Asset", i, ".", full_names[i]), 
+               data=mydat) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+fig
+
+i=6
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", name=paste("Asset", i, ".", full_names[i]), 
+               data=mydat) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+fig
+
+i=7
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", name=paste("Asset", i, ".", full_names[i]), 
+               data=mydat) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+fig
+
+i=8
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", name=paste("Asset", i, ".", full_names[i]), 
+               data=mydat) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+fig
+
+i=9
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", name=paste("Asset", i, ".", full_names[i]), 
+               data=mydat) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+fig
+
+i=10
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", name=paste("Asset", i, ".", full_names[i]), 
+               data=mydat) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+fig
+
+```
+
+
+# 데이터 시기 공개
+
+```{r, echo=F}
+
+names = c("djia", "gold", "kospi", "oil", "sp500", "bond_1yr",
+                       "us_home", "bond_20yr", "usd", "vix")
+full_names = c("Dow Jones Industrial Average", "Gold", "KOSPI", "Oil", "S&P 500", 
+               "Short-term bond (1yr)", "House Price (U.S.)", "Long-term bond (20yr)", "USD/KRW", "Volatility Index (VIX)")
+
+mydat = read.csv("data/entire_dataset.csv", stringsAsFactors = F) %>%
+  select(symbol, time2, price, period) %>%
+  arrange(match(symbol, names))
+mydat = mydat %>% 
+  tidyr::pivot_wider(names_from = symbol, values_from=price) 
+mydat$time2 = as.Date(mydat$time2, format="%Y-%m-%d")
+
+mydat = mydat %>% mutate(
+  period = ifelse(period=="Phase0", "Phase0 (1998-2002)",
+                  ifelse(period=="Phase1", "Phase1 (2004-2008)",
+                         ifelse(period=="Phase2", "Phase2 (2010-2014)", "Phase3 (2015-2019)")))
+)
+
+i=1
+fig <- plot_ly(x = ~time2, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", 
+               data=mydat, color = ~period ) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30)) 
+fig
+
+i=2
+fig <- plot_ly(x = ~time2, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", 
+               data=mydat, color = ~period ) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30)) 
+fig
+
+i=3
+fig <- plot_ly(x = ~time2, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", 
+               data=mydat, color = ~period ) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30)) 
+fig
+
+i=4
+fig <- plot_ly(x = ~time2, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", 
+               data=mydat, color = ~period ) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30)) 
+fig
+
+i=5
+fig <- plot_ly(x = ~time2, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", 
+               data=mydat, color = ~period ) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30)) 
+fig
+
+i=6
+fig <- plot_ly(x = ~time2, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", 
+               data=mydat, color = ~period ) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30)) 
+fig
+
+i=7
+fig <- plot_ly(x = ~time2, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", 
+               data=mydat, color = ~period, connectgaps=T) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30)) 
+fig
+
+i=8
+fig <- plot_ly(x = ~time2, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", 
+               data=mydat, color = ~period ) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30)) 
+fig
+
+i=9
+fig <- plot_ly(x = ~time2, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", 
+               data=mydat, color = ~period ) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30)) 
+fig
+
+i=10
+fig <- plot_ly(x = ~time2, y = ~eval(parse(text=names[i])), 
+               type = "scatter", mode="lines", 
+               data=mydat, color = ~period ) %>%
+  layout(title = paste("Asset", i, ".", full_names[i]), yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30)) 
+fig
 
 
 
-
+```
