@@ -100,10 +100,10 @@ fig <- fig %>% add_trace(y = ~eval(parse(text=teams[2])), name = paste("Team", 2
   add_trace(y = ~eval(parse(text=teams[4])), name = paste("Team", 4), mode = 'lines') %>%
   add_trace(y = ~eval(parse(text=teams[5])), name = paste("Team", 5), mode = 'lines') %>%
   add_trace(y = ~eval(parse(text=teams[6])), name = paste("Team", 6), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 7), mode = 'lines') # %>%
-  #add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 8), mode = 'lines') %>%
-  #add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 9), mode = 'lines') %>%
-  #add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 10), mode = 'lines') 
+  add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 7), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 8), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 9), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 10), mode = 'lines') 
 
 ```
 
@@ -205,9 +205,9 @@ fig <- fig %>% add_trace(y = ~eval(parse(text=teams[2])), name = paste("Team", 2
   add_trace(y = ~eval(parse(text=teams[5])), name = paste("Team", 5), mode = 'lines') %>%
   add_trace(y = ~eval(parse(text=teams[6])), name = paste("Team", 6), mode = 'lines') %>%
   add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 7), mode = 'lines') # %>%
-  #add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 8), mode = 'lines') %>%
-  #add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 9), mode = 'lines') %>%
-  #add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 10), mode = 'lines') 
+  add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 8), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 9), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 10), mode = 'lines') 
 
 fig
 ```
