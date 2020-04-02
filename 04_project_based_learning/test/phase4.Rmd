@@ -36,32 +36,6 @@ library(highcharter)
 library(quantmod)
 ```
 
-<!----
-**자산 클래스**
-
-1. 해외주식: S&P500
-2. 국내주식: KOSPI
-
-**데이터 기간**
-
-1. 1991-1995 닷컴버블 이전 (보여주는 데이터)
-2. 1996-2000 닷컴버블 (투자시기 1)
-3. 2005-2010 경제위기 (투자시기 2)
-4. 2015-2020 회복기 (투자시기 3)
-
-
-
-<br>
-<div style="background-color:#a8c3ed;padding: 0px">
-
-> "여기는 멋진 말! 투자가 어쩌구~"
-> 
-> --- Kyounghun Bae 
-
-</div>
-
----->
-
 ```{r, include = F}
 library(plotly)
 library(dplyr)
@@ -69,9 +43,9 @@ library(tidyr)
 
 names = c("djia", "gold", "kospi", "oil", "sp500", "bond_1yr",
                        "us_home", "bond_20yr", "usd", "vix")
-mydat = read.csv("data/sample_dataset.csv", stringsAsFactors = F) %>% filter(period %in% c("Phase3"))
+mydat = read.csv("../data/sample_dataset.csv", stringsAsFactors = F) %>% filter(period %in% c("Phase3"))
 
-response = read.csv("data/response/response1.csv", stringsAsFactors = F)[,-c(1:3)] 
+response = read.csv("response/response.csv", stringsAsFactors = F)[,-c(1:3)] 
 colnames(response) = c("team", "game", names)
 response = response %>% mutate(team = paste0("team", as.numeric(substr(team,1,1))), 
                                game = as.numeric(substr(game, 6,6))) %>%
@@ -101,7 +75,7 @@ pf = mydat %>%
   group_by(game, team, time) %>%
   summarise(pfval = sum(price*quantity)) %>%
   as.data.frame()
-write.csv(pf, "data/pf/stage3.csv", row.names=F)
+write.csv(pf, "pf/stage3.csv", row.names=F)
 pf = pf %>% select(-game) %>% 
   tidyr::pivot_wider(names_from = team, values_from=pfval) 
 ```
@@ -154,7 +128,7 @@ pf %>% filter(substr(time,6,10)=="12-01") %>% kable(digits = 3) %>%
 
 
 ```{r pressure, echo=FALSE}
-phase3 = read.csv("data/sample_phase3.csv")
+phase3 = read.csv("../data/sample_phase3.csv")
 names = c("djia", "gold", "kospi", "oil", "sp500", "bond_1yr",
                        "us_home", "bond_20yr", "usd", "vix")
 phase3 = phase3 %>%
@@ -189,15 +163,15 @@ fig
 ```{r, include = F}
 names = c("djia", "gold", "kospi", "oil", "sp500", "bond_1yr",
                        "us_home", "bond_20yr", "usd", "vix")
-mydat = read.csv("data/sample_dataset.csv", stringsAsFactors = F) 
+mydat = read.csv("../data/sample_dataset.csv", stringsAsFactors = F) 
 
-pf1 = read.csv("data/pf/stage1.csv", stringsAsFactors = F)
+pf1 = read.csv("pf/stage1.csv", stringsAsFactors = F)
 
 cum1 = pf1 %>% filter(time=="2025-12-01") %>% 
   mutate(multiplier = pfval) %>%
   select(team, multiplier)
 
-pf2 = read.csv("data/pf/stage2.csv", stringsAsFactors = F) %>% 
+pf2 = read.csv("pf/stage2.csv", stringsAsFactors = F) %>% 
   left_join(cum1, by="team") %>% 
   mutate(pfval = pfval * multiplier) %>% select(-multiplier)
 
@@ -205,7 +179,7 @@ cum2 = pf2 %>% filter(time=="2030-12-01") %>%
   mutate(multiplier = pfval) %>%
   select(team, multiplier) 
 
-pf3 = read.csv("data/pf/stage3.csv", stringsAsFactors = F) %>% 
+pf3 = read.csv("pf/stage3.csv", stringsAsFactors = F) %>% 
   left_join(cum2, by="team") %>% 
   mutate(pfval = pfval * multiplier) %>% select(-multiplier)
 
@@ -254,7 +228,7 @@ pf %>% filter(time == "2035-12-01") %>%
 ## 포트폴리오 조정 History
 ```{r, echo=F}
 
-response = read.csv("data/response/response1.csv", stringsAsFactors = F)[,-c(1:3)] 
+response = read.csv("response/response.csv", stringsAsFactors = F)[,-c(1:3)] 
 colnames(response) = c("team", "game", names)
 response = response %>% mutate(team = paste0("team", as.numeric(substr(team,1,1))), 
                                game = as.numeric(substr(game, 6,6))) %>%
@@ -294,7 +268,7 @@ names = c("djia", "gold", "kospi", "oil", "sp500", "bond_1yr",
                        "us_home", "bond_20yr", "usd", "vix")
 full_names = c("Dow Jones Industrial Average", "Gold", "KOSPI", "Oil", "S&P 500", 
                "Short-term bond (1yr)", "House Price (U.S.)", "Long-term bond (20yr)", "USD/KRW", "Volatility Index (VIX)")
-mydat = read.csv("data/sample_dataset.csv", stringsAsFactors = F)
+mydat = read.csv("../data/sample_dataset.csv", stringsAsFactors = F)
 mydat = mydat %>% 
   tidyr::pivot_wider(names_from = symbol, values_from=price) 
 mydat$time = as.Date(mydat$time, format="%Y-%m-%d")
@@ -391,7 +365,7 @@ names = c("djia", "gold", "kospi", "oil", "sp500", "bond_1yr",
 full_names = c("Dow Jones Industrial Average", "Gold", "KOSPI", "Oil", "S&P 500", 
                "Short-term bond (1yr)", "House Price (U.S.)", "Long-term bond (20yr)", "USD/KRW", "Volatility Index (VIX)")
 
-mydat = read.csv("data/entire_dataset.csv", stringsAsFactors = F) %>%
+mydat = read.csv("../data/entire_dataset.csv", stringsAsFactors = F) %>%
   select(symbol, time2, price, period) %>%
   arrange(match(symbol, names))
 mydat = mydat %>% 

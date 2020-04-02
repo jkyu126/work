@@ -41,10 +41,10 @@ library(quantmod)
 library(plotly)
 library(dplyr)
 
-phase0 = read.csv("data/sample_phase0.csv")
-phase1 = read.csv("data/sample_phase1.csv")
-phase2 = read.csv("data/sample_phase2.csv")
-phase3 = read.csv("data/sample_phase3.csv")
+phase0 = read.csv("../data/sample_phase0.csv")
+phase1 = read.csv("../data/sample_phase1.csv")
+phase2 = read.csv("../data/sample_phase2.csv")
+phase3 = read.csv("../data/sample_phase3.csv")
 
 ```
 
