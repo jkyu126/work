@@ -1,7 +1,7 @@
 ---
 title: "경영의 이해 - 통계적 투자의사결정"
 author: "배경훈 교수"
-output:
+output: 
   bookdown::html_document2:
   # html_document:
     toc: yes
@@ -36,31 +36,6 @@ library(highcharter)
 library(quantmod)
 ```
 
-<!----
-**자산 클래스**
-
-1. 해외주식: S&P500
-2. 국내주식: KOSPI
-
-**데이터 기간**
-
-1. 1991-1995 닷컴버블 이전 (보여주는 데이터)
-2. 1996-2000 닷컴버블 (투자시기 1)
-3. 2005-2010 경제위기 (투자시기 2)
-4. 2015-2020 회복기 (투자시기 3)
-
-
-
-<br>
-<div style="background-color:#a8c3ed;padding: 0px">
-
-> "여기는 멋진 말! 투자가 어쩌구~"
-> 
-> --- Kyounghun Bae 
-
-</div>
-
----->
 
 ```{r, include = F}
 library(plotly)
