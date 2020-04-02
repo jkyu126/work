@@ -159,5 +159,7 @@ fig
 
 ```
 
+데이터 다운로드: https://drive.google.com/open?id=12LWZGGzTSrsRpmlZ6BwKYlDXLkqN9mtX
+
 응답 제출: https://forms.gle/rM4K45RQK775hyZk6
 
