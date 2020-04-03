@@ -82,7 +82,9 @@ pf = pf %>% select(-game) %>%
 
 ## 팀별 포트폴리오 비율 공개
 ```{r, echo = F}
-kable(reveal) %>%
+reveal %>%
+  select(symbol, team0, team1, team2, team3, team4, team5, team6, team7, team8, team9) %>%
+  kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
@@ -91,19 +93,19 @@ kable(reveal) %>%
 teams = colnames(pf)[-1]
 pf$time = as.Date(pf$time, format="%Y-%m-%d")
 fig <- plot_ly(x = ~time, y = ~eval(parse(text=teams[1])), 
-               type = "scatter", mode="lines", name="Team 1", data=pf) %>%
+               type = "scatter", mode="lines", name="Team 0", data=pf) %>%
   layout(title = "Portfolio Performance from 2031-2035", yaxis=list(title="value"), 
          xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
 
-fig <- fig %>% add_trace(y = ~eval(parse(text=teams[2])), name = paste("Team", 2), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[3])), name = paste("Team", 3), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[4])), name = paste("Team", 4), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[5])), name = paste("Team", 5), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[6])), name = paste("Team", 6), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 7), mode = 'lines') # %>%
-  #add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 8), mode = 'lines') %>%
-  #add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 9), mode = 'lines') %>%
-  #add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 10), mode = 'lines') 
+fig <- fig %>% add_trace(y = ~eval(parse(text=teams[2])), name = paste("Team", 1), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[3])), name = paste("Team", 2), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[4])), name = paste("Team", 3), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[5])), name = paste("Team", 4), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[6])), name = paste("Team", 5), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 6), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 7), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 8), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 9), mode = 'lines') 
 
 ```
 
@@ -112,7 +114,9 @@ fig
 ```
 
 ```{r, echo=F}
-pf %>% filter(substr(time,6,10)=="12-01") %>% kable(digits = 3) %>%
+pf %>% filter(substr(time,6,10)=="12-01") %>% 
+  select(time, team0, team1, team2, team3, team4, team5, team6, team7, team8, team9) %>%
+  kable(digits = 3) %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 
 ```
@@ -195,19 +199,19 @@ pf = pf %>% select(-game) %>%
 teams = colnames(pf)[-1]
 pf$time = as.Date(pf$time, format="%Y-%m-%d")
 fig <- plot_ly(x = ~time, y = ~eval(parse(text=teams[1])), 
-               type = "scatter", mode="lines", name="Team 1", data=pf) %>%
+               type = "scatter", mode="lines", name="Team 0", data=pf) %>%
   layout(title = "Cumulative Portfolio Performance from 2021-2035", yaxis=list(title="value"), 
          xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
 
-fig <- fig %>% add_trace(y = ~eval(parse(text=teams[2])), name = paste("Team", 2), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[3])), name = paste("Team", 3), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[4])), name = paste("Team", 4), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[5])), name = paste("Team", 5), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[6])), name = paste("Team", 6), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 7), mode = 'lines') # %>%
-  #add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 8), mode = 'lines') %>%
-  #add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 9), mode = 'lines') %>%
-  #add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 10), mode = 'lines') 
+fig <- fig %>% add_trace(y = ~eval(parse(text=teams[2])), name = paste("Team", 1), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[3])), name = paste("Team", 2), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[4])), name = paste("Team", 3), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[5])), name = paste("Team", 4), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[6])), name = paste("Team", 5), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 6), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 7), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 8), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 9), mode = 'lines') 
 
 fig
 ```
@@ -240,7 +244,9 @@ reveal = response %>%
 
 reveal$symbol = paste0(rep("Asset"),1:10)
   
-reveal %>% select(-game) %>% kable(digits = 3) %>%
+reveal %>% 
+  select(symbol, team0, team1, team2, team3, team4, team5, team6, team7, team8, team9) %>%
+  kable(digits = 3) %>%
   kable_styling(bootstrap_options = c("striped", "hover")) %>%
   pack_rows("Phase 1 (2021-2025)", 1, 10) %>% 
   pack_rows("Phase 2 (2026-2030)", 11, 20) %>% 
@@ -458,10 +464,6 @@ fig <- plot_ly(x = ~time2, y = ~eval(parse(text=names[i])),
          xaxis = list(type = "date", tickformat="%b %Y", tickangle=30)) 
 fig
 
-
-
 ```
-
-
 
 투자자 편지 및 느낀점 제출: https://forms.gle/RpbDzfNXpkB89wS4A
