@@ -83,7 +83,9 @@ pf = pf %>% select(-game) %>%
 
 ## 팀별 포트폴리오 비율 공개
 ```{r, echo = F}
-kable(reveal) %>%
+reveal %>%
+  select(symbol, team0, team1, team2, team3, team4, team5, team6, team7, team8, team9) %>%
+  kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 

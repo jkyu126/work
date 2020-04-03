@@ -91,19 +91,19 @@ kable(reveal) %>%
 teams = colnames(pf)[-1]
 pf$time = as.Date(pf$time, format="%Y-%m-%d")
 fig <- plot_ly(x = ~time, y = ~eval(parse(text=teams[1])), 
-               type = "scatter", mode="lines", name="Team 1", data=pf) %>%
+               type = "scatter", mode="lines", name="Team 0", data=pf) %>%
   layout(title = "Portfolio Performance from 2031-2035", yaxis=list(title="value"), 
          xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
 
-fig <- fig %>% add_trace(y = ~eval(parse(text=teams[2])), name = paste("Team", 2), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[3])), name = paste("Team", 3), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[4])), name = paste("Team", 4), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[5])), name = paste("Team", 5), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[6])), name = paste("Team", 6), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 7), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 8), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 9), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 10), mode = 'lines') 
+fig <- fig %>% add_trace(y = ~eval(parse(text=teams[2])), name = paste("Team", 1), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[3])), name = paste("Team", 2), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[4])), name = paste("Team", 3), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[5])), name = paste("Team", 4), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[6])), name = paste("Team", 5), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 6), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 7), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 8), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 9), mode = 'lines') 
 
 ```
 
