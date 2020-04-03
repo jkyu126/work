@@ -82,7 +82,9 @@ pf = pf %>% select(-game) %>%
 
 ## 팀별 포트폴리오 비율 공개
 ```{r, echo = F}
-kable(reveal) %>%
+reveal %>%
+  select(symbol, team0, team1, team2, team3, team4, team5, team6, team7, team8, team9) %>%
+  kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
 
@@ -112,7 +114,9 @@ fig
 ```
 
 ```{r, echo=F}
-pf %>% filter(substr(time,6,10)=="12-01") %>% kable(digits = 3) %>%
+pf %>% filter(substr(time,6,10)=="12-01") %>% 
+  select(time, team0, team1, team2, team3, team4, team5, team6, team7, team8, team9) %>%
+  kable(digits = 3) %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 
 ```
@@ -240,7 +244,9 @@ reveal = response %>%
 
 reveal$symbol = paste0(rep("Asset"),1:10)
   
-reveal %>% select(-game) %>% kable(digits = 3) %>%
+reveal %>% 
+  select(symbol, team0, team1, team2, team3, team4, team5, team6, team7, team8, team9) %>%
+  kable(digits = 3) %>%
   kable_styling(bootstrap_options = c("striped", "hover")) %>%
   pack_rows("Phase 1 (2021-2025)", 1, 10) %>% 
   pack_rows("Phase 2 (2026-2030)", 11, 20) %>% 
@@ -458,10 +464,6 @@ fig <- plot_ly(x = ~time2, y = ~eval(parse(text=names[i])),
          xaxis = list(type = "date", tickformat="%b %Y", tickangle=30)) 
 fig
 
-
-
 ```
-
-
 
 투자자 편지 및 느낀점 제출: https://forms.gle/RpbDzfNXpkB89wS4A
