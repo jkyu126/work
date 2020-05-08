@@ -150,7 +150,9 @@ pf = rbind(pf1, pf2) %>%
   arrange(team, time)
 
 pf = pf %>% select(-game) %>% 
-  tidyr::pivot_wider(names_from = team, values_from=pfval) 
+  tidyr::pivot_wider(names_from = team, values_from=pfval) %>%
+  select(time, team1, team2, team3, team4, team5, team6, team7, team8, team9,
+         team10, team11)
 
 ```
 
