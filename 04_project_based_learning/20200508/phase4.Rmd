@@ -240,7 +240,7 @@ pf %>% filter(time == "2035-12-01") %>%
 
 response = read.csv("response/response.csv", stringsAsFactors = F)[,-c(1:2)]
 colnames(response) = c("class", "team", "game", names)
-response = response %>% filter(class=="4월 24일") %>% select(-class)
+response = response %>% filter(class=="5월 8일") %>% select(-class)
 
 response = response %>% mutate(team = paste0("team", as.numeric(substr(team,1,2))), 
                                game = as.numeric(substr(game, 6,6))) %>%
