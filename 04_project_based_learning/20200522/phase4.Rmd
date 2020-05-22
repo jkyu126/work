@@ -193,7 +193,7 @@ pf = rbind(pf1, pf2, pf3) %>%
 
 pf = pf %>% select(-game) %>% 
   tidyr::pivot_wider(names_from = team, values_from=pfval) %>% 
-  select(time, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12, team13) 
+  select(time, team1, team2, team3, team4, team5, team6, team7, team8) 
 
 ```
 
@@ -252,7 +252,7 @@ reveal = response %>%
 reveal$symbol = paste0(rep("Asset"),1:10)
   
 reveal %>% 
-  select(symbol, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10, team11, team12, team13) %>%
+  select(symbol, team1, team2, team3, team4, team5, team6, team7, team8) %>%
   kable(digits = 3) %>%
   kable_styling(bootstrap_options = c("striped", "hover")) %>%
   pack_rows("Phase 1 (2021-2025)", 1, 10) %>% 
