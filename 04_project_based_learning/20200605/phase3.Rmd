@@ -123,6 +123,57 @@ pf %>% filter(substr(time,6,10)=="12-01") %>% kable(digits = 3) %>%
 
 ```
 
+
+## 누적 성과공개 (2021-2030)
+
+```{r, include = F}
+names = c("djia", "gold", "kospi", "oil", "sp500", "bond_1yr",
+                       "us_home", "bond_20yr", "usd", "vix")
+mydat = read.csv("../data/sample_dataset.csv", stringsAsFactors = F) 
+
+pf1 = read.csv("pf/stage1.csv", stringsAsFactors = F)
+
+cum1 = pf1 %>% filter(time=="2025-12-01") %>% 
+  mutate(multiplier = pfval) %>%
+  select(team, multiplier)
+
+pf2 = read.csv("pf/stage2.csv", stringsAsFactors = F) %>% 
+  left_join(cum1, by="team") %>% 
+  mutate(pfval = pfval * multiplier) %>% select(-multiplier)
+
+cum2 = pf2 %>% filter(time=="2030-12-01") %>% 
+  mutate(multiplier = pfval) %>%
+  select(team, multiplier) 
+
+pf = rbind(pf1, pf2) %>%
+  arrange(team, time)
+
+pf = pf %>% select(-game) %>% 
+  tidyr::pivot_wider(names_from = team, values_from=pfval) %>%
+  select(time, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10)
+
+```
+
+```{r, echo = F}
+teams = colnames(pf)[-1]
+pf$time = as.Date(pf$time, format="%Y-%m-%d")
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=teams[1])), 
+               type = "scatter", mode="lines", name="Team 1", data=pf) %>%
+  layout(title = "Cumulative Portfolio Performance from 2021-2035", yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+
+fig <- fig %>% add_trace(y = ~eval(parse(text=teams[2])), name = paste("Team", 2), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[3])), name = paste("Team", 3), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[4])), name = paste("Team", 4), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[5])), name = paste("Team", 5), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[6])), name = paste("Team", 6), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 7), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 8), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 9), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 10), mode = 'lines')   
+fig
+```
+
 ## 자산별 성과공개 Phase Three 포트폴리오 구성 (데이터 제공: 2026-2030)
 * 아래 반응형 도표는 2026년부터 2030년까지의 10가지 전세계 자산 가격의 데이터입니다. 
 * 각 자산의 가격은 비교를 용이하게 하기 위해 2026년 1월 가격을 1로 표준화하였습니다.
