@@ -47,7 +47,7 @@ mydat = read.csv("../data/sample_dataset.csv", stringsAsFactors = F) %>% filter(
 
 response = read.csv("response/response.csv", stringsAsFactors = F)[,-c(1:2)]
 colnames(response) = c("class", "team", "game", names)
-response = response %>% filter(class=="5월 22일") %>% select(-class)
+response = response %>% filter(class=="6월 5일") %>% select(-class)
 
 response = response %>% mutate(team = paste0("team", as.numeric(substr(team,1,2))), 
                                game = as.numeric(substr(game, 6,6))) %>% filter(game==3) %>%
@@ -80,13 +80,13 @@ pf = mydat %>%
 write.csv(pf, "pf/stage3.csv", row.names=F)
 pf = pf %>% select(-game) %>% 
   tidyr::pivot_wider(names_from = team, values_from=pfval) %>% 
-  select(time, team1, team2, team3, team4, team5, team6, team7, team8) 
+  select(time, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10) 
 ```
 
 ## 팀별 포트폴리오 비율 공개
 ```{r, echo = F}
 reveal %>%
-  select(symbol, team1, team2, team3, team4, team5, team6, team7, team8) %>%
+  select(symbol, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10) %>%
   kable() %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 ```
@@ -106,7 +106,9 @@ fig <- fig %>% add_trace(y = ~eval(parse(text=teams[2])), name = paste("Team", 2
   add_trace(y = ~eval(parse(text=teams[5])), name = paste("Team", 5), mode = 'lines') %>%
   add_trace(y = ~eval(parse(text=teams[6])), name = paste("Team", 6), mode = 'lines') %>%
   add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 7), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 8), mode = 'lines') 
+  add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 8), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 9), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 10), mode = 'lines')   
 
 ```
 
@@ -116,7 +118,7 @@ fig
 
 ```{r, echo=F}
 pf %>% filter(substr(time,6,10)=="12-01") %>% 
-  select(time, team1, team2, team3, team4, team5, team6, team7, team8) %>%
+  select(time, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10) %>%
   kable(digits = 3) %>%
   kable_styling(bootstrap_options = c("striped", "hover"))
 
@@ -193,7 +195,7 @@ pf = rbind(pf1, pf2, pf3) %>%
 
 pf = pf %>% select(-game) %>% 
   tidyr::pivot_wider(names_from = team, values_from=pfval) %>% 
-  select(time, team1, team2, team3, team4, team5, team6, team7, team8) 
+  select(time, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10) 
 
 ```
 
@@ -213,10 +215,7 @@ fig <- fig %>% add_trace(y = ~eval(parse(text=teams[2])), name = paste("Team", 2
   add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 7), mode = 'lines') %>%
   add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 8), mode = 'lines') %>%
   add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 9), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 10), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[11])), name = paste("Team", 11), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[12])), name = paste("Team", 12), mode = 'lines') %>%
-  add_trace(y = ~eval(parse(text=teams[13])), name = paste("Team", 13), mode = 'lines') 
+  add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 10), mode = 'lines') 
 
 fig
 ```
@@ -239,7 +238,7 @@ pf %>% filter(time == "2035-12-01") %>%
 
 response = read.csv("response/response.csv", stringsAsFactors = F)[,-c(1:2)]
 colnames(response) = c("class", "team", "game", names)
-response = response %>% filter(class=="5월 22일") %>% select(-class)
+response = response %>% filter(class=="6월 5일") %>% select(-class)
 
 response = response %>% mutate(team = paste0("team", as.numeric(substr(team,1,2))), 
                                game = as.numeric(substr(game, 6,6))) %>%
@@ -252,7 +251,7 @@ reveal = response %>%
 reveal$symbol = paste0(rep("Asset"),1:10)
   
 reveal %>% 
-  select(symbol, team1, team2, team3, team4, team5, team6, team7, team8) %>%
+  select(symbol, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10) %>%
   kable(digits = 3) %>%
   kable_styling(bootstrap_options = c("striped", "hover")) %>%
   pack_rows("Phase 1 (2021-2025)", 1, 10) %>% 
