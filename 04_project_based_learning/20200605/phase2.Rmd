@@ -48,7 +48,7 @@ mydat = read.csv("../data/sample_dataset.csv", stringsAsFactors = F) %>% filter(
 
 response = read.csv("response/response.csv", stringsAsFactors = F)[,-c(1:2)]
 colnames(response) = c("class", "team", "game", names)
-response = response %>% filter(class=="5월 22일") %>% select(-class)
+response = response %>% filter(class=="6월 5일") %>% select(-class)
 
 response = response %>% mutate(team = paste0("team", as.numeric(substr(team,1,2))), 
                                game = as.numeric(substr(game, 6,6))) %>% filter(game==1) %>%
