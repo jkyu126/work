@@ -1,0 +1,169 @@
+---
+title: "경영의 이해 - 통계적 투자의사결정"
+author: "배경훈 교수"
+output:
+  bookdown::html_document2:
+  # html_document:
+    toc: yes
+    toc_float: yes
+    toc_depth: 2
+    collapsed: TRUE
+    number_sections: TRUE
+    fig_caption: TRUE
+    
+header-includes:
+- \usepackage{booktabs}
+#bibliography: [article.bib]
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,  warning = FALSE, message = FALSE,
+  fig.show = 'hold', fig.align = 'center', fig.pos = 'h',  out.width = "70%"
+)
+
+pdf.options(family = "Korea1deb")
+
+library(stringr)
+library(dplyr)
+library(ggplot2)
+library(magrittr)
+library(knitr)
+library(kableExtra)
+library(lubridate)
+library(highcharter)
+library(quantmod)
+```
+
+
+```{r, include = F}
+library(plotly)
+library(dplyr)
+library(tidyr)
+
+names = c("djia", "gold", "kospi", "oil", "sp500", "bond_1yr",
+                       "us_home", "bond_20yr", "usd", "vix")
+mydat = read.csv("../data/sample_dataset.csv", stringsAsFactors = F) %>% filter(period %in% c("Phase1"))
+
+response = read.csv("response/response.csv", stringsAsFactors = F)[,-c(1:2)]
+colnames(response) = c("class", "team", "game", names)
+response = response %>% filter(class=="6월 5일") %>% select(-class)
+
+response = response %>% mutate(team = paste0("team", as.numeric(substr(team,1,2))), 
+                               game = as.numeric(substr(game, 6,6))) %>% filter(game==1) %>%
+  pivot_longer(-c(team:game), names_to = "symbol", values_to = "pfratio")
+
+reveal = response %>% select(-game) %>%
+  tidyr::pivot_wider(names_from = team, values_from = pfratio) %>%
+  arrange(match(symbol, names))
+reveal$symbol = paste0(rep("Asset"),1:10)
+  
+reveal[11,] = c("Total", sapply(reveal[,-1], sum))
+
+```
+
+# Phase One Evaluation (데이터 제공: 2021-2025)
+
+
+```{r, include=FALSE}
+price = mydat %>% filter(time=="2021-01-01")
+response = response %>% filter(game==1) %>%
+  left_join(price, by="symbol")
+response2 = response %>%
+  mutate(quantity = pfratio/price) %>% 
+  select(team, game, symbol, quantity)
+pf = mydat %>% 
+  left_join(response2, by="symbol") %>%
+  group_by(game, team, time) %>%
+  summarise(pfval = sum(price*quantity)) %>%
+  as.data.frame()
+write.csv(pf, "pf/stage1.csv", row.names=F)
+pf = pf %>% 
+  tidyr::pivot_wider(names_from = team, values_from=pfval) %>% select(time, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10) 
+```
+
+## 팀별 포트폴리오 비율 공개
+```{r, echo = F}
+reveal %>%
+  select(symbol, team1, team2, team3, team4, team5, team6, team7, team8, team9, team10) %>%
+  kable() %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+```
+
+## 성과 공개
+```{r, include = F}
+teams = colnames(pf)[-1]
+pf$time = as.Date(pf$time, format="%Y-%m-%d")
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=teams[1])), 
+               type = "scatter", mode="lines", name="Team 1", data=pf) %>%
+  layout(title = "Portfolio Performance from 2021-2025", yaxis=list(title="value"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+
+fig <- fig %>% add_trace(y = ~eval(parse(text=teams[2])), name = paste("Team", 2), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[3])), name = paste("Team", 3), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[4])), name = paste("Team", 4), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[5])), name = paste("Team", 5), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[6])), name = paste("Team", 6), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[7])), name = paste("Team", 7), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[8])), name = paste("Team", 8), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[9])), name = paste("Team", 9), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=teams[10])), name = paste("Team", 10), mode = 'lines')   
+
+```
+
+```{r, echo=F}
+fig
+```
+
+```{r, echo=F}
+pf %>% filter(substr(time,6,10)=="12-01") %>% kable(digits = 3) %>%
+  kable_styling(bootstrap_options = c("striped", "hover"))
+
+```
+
+## 자산별 성과공개 Phase Two 포트폴리오 구성 (데이터 제공: 2021-2025)
+* 아래 반응형 도표는 2021년부터 2025년까지의 10가지 전세계 자산 가격의 데이터입니다. 
+* 각 자산의 가격은 비교를 용이하게 하기 위해 2021년 1월 가격을 1로 표준화하였습니다.
+* 실제로 해당 자산이 어떤 자산인지는 투자 평가가 모두 끝나고 수업 막바지에 공개됩니다. 추측해보세요!
+* 오른쪽 각 자산의 이름을 클릭하면 해당자산을 빼고 보거나 추가하여 볼 수 있습니다.
+* 각 자산의 선 위에 마우스를 올리면 해당 시점과 정확한 가격을 볼 수 있습니다.
+* 줌인, 줌아웃, 하나의 시점에 여러 자산을 한꺼번에 보는 것도 가능합니다. 우측 상단 버튼을 잘 이용하세요.
+* 드래그를 하면 해당 날짜의 자산가격만 볼 수도 있습니다.
+* 조별로 토론하고, 2025년 시점에서 어떻게 포트폴리오를 구성할 지 생각하여 제출하세요. 
+* 구성한 포트폴리오의 자산 가치가 조 이름과 함께 모두에게 공개됩니다!
+
+```{r pressure, echo=FALSE}
+phase1 = read.csv("../data/sample_phase1.csv")
+names = c("djia", "gold", "kospi", "oil", "sp500", "bond_1yr",
+                       "us_home", "bond_20yr", "usd", "vix")
+phase1 = phase1 %>%
+  group_by(symbol) %>%
+  mutate(price = price / price[1]) %>%
+  ungroup() %>%
+  arrange(match(symbol, names), time) %>%
+  tidyr::pivot_wider(names_from = symbol, values_from=price)
+
+fig <- plot_ly(x = ~time, y = ~eval(parse(text=names[1])), 
+               type = "scatter", mode="lines", name="Asset 1", data=phase1) %>%
+  layout(title = "Asset Price from 2021-2025", yaxis=list(title="price"), 
+         xaxis = list(type = "date", tickformat="%b %Y", tickangle=30))
+
+fig <- fig %>% add_trace(y = ~eval(parse(text=names[2])), name = paste("Asset", 2), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=names[3])), name = paste("Asset", 3), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=names[4])), name = paste("Asset", 4), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=names[5])), name = paste("Asset", 5), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=names[6])), name = paste("Asset", 6), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=names[7])), name = paste("Asset", 7), mode = 'lines', connectgaps=T) %>%
+  add_trace(y = ~eval(parse(text=names[8])), name = paste("Asset", 8), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=names[9])), name = paste("Asset", 9), mode = 'lines') %>%
+  add_trace(y = ~eval(parse(text=names[10])), name = paste("Asset", 10), mode = 'lines') 
+   
+fig
+
+```
+
+데이터 다운로드: https://drive.google.com/open?id=12LWZGGzTSrsRpmlZ6BwKYlDXLkqN9mtX
+
+응답 제출: https://forms.gle/rM4K45RQK775hyZk6
+
